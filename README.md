@@ -755,11 +755,333 @@ int Solution::solve(int A, int B) {
 }
 
 *****************************************************************************************
+int cutRod(int n, vector<int> &B){
+    int val[n+1];
+    val[0]=0;
+    int i,j;
+    for(i=1;i<=n;i++){
+        int max_val=INT_MIN;
+        for(j=0;j<i;j++){
+            max_val=max(max_val,B[j]+val[i-j-1]);
+        }
+        val[i]=max_val;
+    }
+    return val[n];
+}
+
+vector<int> Solution::rodCut(int A, vector<int> &B) {
+    return cutRod(A, B);
+}
+
 ******************************************************************************************
+unordered_map<UndirectedGraphNode*, UndirectedGraphNode*>mp;
+
+UndirectedGraphNode dfs(UndirectedGraphNode Node){
+    if(node == NULL)
+        return NULL:
+    if(mp.find(node) == mp.end()){
+        mp[node] = new UndirectedGraphNode(node->label);
+        for(auto x:node->neighbors){
+            mp[node]->neighbors.push_back(dfs(x));
+        }
+    }
+    return mp[node];
+}
+
+UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
+    mp.clear();
+    return dfs(node);
+
+}
 ****************************************************************************************
+int find1(int a1[],int x){
+    if(a1[x]== -1)return x;
+    return a1[x]=find(a1,a1[x]);
+}
+
+int Solution::solve(int A, vector<int> &B, vector<int> &C) {
+    if(B.size()>=A)
+        return 0;
+    else
+        return 1;
+    if(!A)
+        return 0;
+    vector<vector<int>>graph(A+1,vector<int>());
+    int i=0,size=min(B.size(),C.size());
+    for(i=0;i<size;i++)
+        graph[B[i]].push_back(C[i]);
+    vector<bool>visited(A+1,false);
+    vector<bool>revStack(A+1,false);
+    
+    for(i=1;i<size;i++)
+        if(!visited[i] and isCyclic(graph,i,visited, recStack))
+            return 0;
+    return 1;
+}
+
 *****************************************************************************************
+int Solution::solve(vector<int> &A) {
+    vector<int>hgt(A.size(),0);
+    int ans=0,maxx=0;
+    for(int i=A.size()-1;i>0;i--){
+        ans=max(ans,hgt[A[i]]+hgt[i]+1);
+        hgt[A[i]]=max(hgt[i]+1,hgt[A[i]]);
+    }
+    return ans;
+}
+
 ******************************************************************************************
+bool isInside(int circle_x,int circle_y,int rad,int x,int y){
+    return (pow((x-circle_x),2) + pow((y-circle_y),2))<=pow(rad,2);
+}
+
+string Solution::solve(int A, int B, int C, int D, vector<int> &E, vector<int> &F) {
+    vector<vector<int>>visited(A+1,vector<int>(B+1,0));
+    queue<pair<int,int>>q;
+    for(int i=0;i<A;i++){
+        for(int j=0;j<B;j++){
+            for(int k=0;k<E.size();k++){
+                if(isInside(E[k],F[k],D,i,j))
+                    visited[i][j]=-1;
+            }
+        }
+    }
+    if(visited[0][0]==-1)return "NO";
+    
+    q.push({0,0});
+    visited[0][0]=1;
+    while(!q.empty()){
+        auto curr=q.front();q.pop();
+        int x = curr.first;
+        int y= curr.second;
+        
+    }
+    
+}
+
 ****************************************************************************************
+vector<int> Solution::solve(vector<int> &A, vector<int> &B, int C) {
+    vector<int>res;
+    priority_queue<tuple<int, int, int>>q;
+    sort(A.rbegin(), A.rend()); 
+    sort(B.rbegin(), B.rend());
+    for(int i=0; i<C; i++) {
+        q.push({A[i]+B[0], i, 0});
+    }
+    while(res.size()<C) {
+        auto [sum, i, j] = q.top(); q.pop();
+        res.push_back(sum);
+        q.push({A[i]+B[j+1], i, j+1});
+    }
+    return res;
+}
+    
 *****************************************************************************************
+int isRectangle(const vector<vector<int> >& matrix) {
+    int rows = matrix.size();
+    if (rows == 0)
+        return 0;
+
+    int columns = matrix[0].size();
+    unordered_map<int, unordered_set<int> > table;
+
+    for (int i = 0; i < rows; ++i) {
+     for (int j = 0; j < columns - 1; ++j) {
+        for (int k = j + 1; k < columns; ++k) {
+          if (matrix[i][j] == 1 && matrix[i][k] == 1) {
+            if (table.find(j) != table.end() && table[j].find(k) != table[j].end())
+                        return 1;
+            if (table.find(k) != table.end() && table[k].find(j) != table[k].end())
+                        return 1;
+            table[j].insert(k);
+            table[k].insert(j);
+          }
+        }
+      }
+    }
+    return 0;
+}
+
+
+int Solution::solve(const vector<vector<int> > &A) {
+    return isRectangle(A);
+}
+
+******************************************************************************************
+#include<list>
+list<int> q;
+unordered_map<int,pair<int,list<int>::iterator>> m;
+int cap;
+LRUCache::LRUCache(int capacity) {
+     cap = capacity;
+     q.clear();
+     m.clear();
+}
+
+int LRUCache::get(int key) {
+    if(m.find(key)!= m.end()){
+        q.erase(m[key].second);
+        q.push_front(key);
+        m[key].second = q.begin();
+        return m[key].first;
+    }
+    else
+    return -1;
+}
+
+void LRUCache::set(int key, int value) {
+      if(m.find(key)!=m.end()){
+          q.erase(m[key].second);
+          q.push_front(key);
+          m[key] = {value,q.begin()} ;
+      }
+      else{
+          if(q.size()>=cap){
+              int last = q.back();
+              q.pop_back();
+              m.erase(last);
+          }
+           q.push_front(key);
+           m[key] = {value,q.begin()} ;
+      }
+}
+
+****************************************************************************************
+ListNode* Solution::solve(ListNode* A, int b) {
+    if(A == NULL) return NULL;
+    ListNode *head,*curr,*next,*prev;
+    curr = A; prev = NULL;
+    for(int i = 0; i<b;i++){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    head = prev;
+    A->next = curr;
+    if(curr==NULL) return head;
+    
+    for(int i = 0; i<b-1;i++)
+    curr = curr->next;
+    
+    curr->next = solve(curr->next,b);
+    return head;
+}
+******************************************************************************************
+ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
+    ListNode* dummy =new ListNode(0);
+    dummy->next=A;
+    ListNode* prev, *curr, *nextnode;prev=dummy;
+    for(int i=0;i<B-1;i++)
+        prev=prev->next;
+    curr=prev->next;
+    
+    for(int i=0;i<C-B;i++){
+        nextnode=curr->next;
+        curr->next=nextnode->next;
+        nextnode->next=prev->next;
+        prev->next=nextnode;
+    }
+    return dummy->next;
+    
+}
+****************************************************************************************
+ListNode* Solution::reverseList(ListNode* A, int B) {
+    if(B==1)
+        return A;
+    int c=1;
+    ListNode *temp=A, *prev=A, *curr=A->next,*next, *head=NULL, *temp2=NULL;
+    
+    while(curr!=NULL){
+        next=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=next;
+        c++;
+        if(c%B==0){
+            head= !head?prev:head;
+            if(temp2)
+                temp2->next=prev;
+            temp2=temp;
+            temp=curr;
+        }
+    }
+    temp2->next=NULL;
+    return head;
+    
+}
+******************************************************************************************
+int arr[12345678],minimum[12345678];
+int cur,mincur;
+MinStack::MinStack() {
+    cur=-1;
+    mincur=-1;
+}
+
+void MinStack::push(int x) {
+    //assert(cur<=1234567);
+    if(mincur==-1 || x<=minimum[mincur])
+    {
+        mincur++;
+        minimum[mincur]=x;
+    }
+    cur++;
+    arr[cur]=x;
+}
+
+void MinStack::pop() {
+    //assert(cur<=1234567);
+    if(cur==-1)
+     return;
+    if(arr[cur]==minimum[mincur])
+     mincur--;
+    cur--;
+}
+
+int MinStack::top() {
+    //assert(cur<=1234567);
+    if(cur==-1)
+     return -1;
+    
+    return arr[cur];
+}
+
+int MinStack::getMin() {
+    //assert(cur<=1234567);
+    if(mincur==-1)
+     return -1;
+    return minimum[mincur];
+}
+****************************************************************************************
+int Solution::trap(const vector<int> &A) {
+    stack<int>stk;
+    for(int i=0;i<A.size();i++){
+        while(!s.empty() and A[i]>A[s.top]){
+            int height = A[s.top()];
+            s.pop();
+            if(s.empty())break;
+            int distance=i-1-s.top();
+            int min_height = min(A[s.top()],A[i])-height;
+            ans+=distance*min_height;
+            
+        }
+        s.push(i);
+        
+    }
+    return ans;
+    
+}
+
 ******************************************************************************************
 ****************************************************************************************
+******************************************************************************************
+****************************************************************************************
+******************************************************************************************
+****************************************************************************************
+******************************************************************************************
+****************************************************************************************
+******************************************************************************************
+****************************************************************************************
+******************************************************************************************
+****************************************************************************************
+******************************************************************************************
