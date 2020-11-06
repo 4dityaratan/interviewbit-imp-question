@@ -1073,15 +1073,427 @@ int Solution::trap(const vector<int> &A) {
 }
 
 ******************************************************************************************
+string Solution::intToRoman(int A) {
+string numerals[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", 
+             "V", "IV", "I"};
+int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+
+    if(A<1 && A>3999)
+    return "";
+    
+    int i=0;
+    string res = "";
+    while(A > 0)
+    {
+        if(A - values[i] >= 0)
+        {
+            res += numerals[i];
+            A = A - values[i];
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return res;
+}
 ****************************************************************************************
+string Solution::countAndSay(int A) {
+if(A==1) return "1";
+int i=2;
+string prev="1";
+while(i<=A)
+{
+    int count=1;
+    char say=prev[0];
+    string newp="";
+    for(int i=1;i<prev.length();i++)
+        if(prev[i]==prev[i-1]) count++;
+        else{
+            newp+=to_string(count);
+            newp.push_back(say);
+            count=1;
+            say=prev[i];
+        }
+    newp+=to_string(count);
+    newp.push_back(say);
+    i++;
+    prev=newp;
+}
+return prev;
+}
 ******************************************************************************************
+string Solution::convert(string A, int B)
+{
+vector a(B);
+string p;
+if(B==0) return p;
+int i =0;
+int n = A.size();
+while(i<n)
+{
+    int t =0;
+    while(t<B and i<n)
+    {
+        a[t].push_back(A[i]);
+        i++;
+        t++;
+    }
+    t = t-2;
+    while(t>0 and i<n)
+    {
+        a[t].push_back(A[i]);
+        i++;
+        t--;
+    }
+}
+
+string ans;
+
+for(auto x: a)
+    ans.append(x);
+return ans;
+}
 ****************************************************************************************
+string Solution::multiply(string A, string B) {
+int n = A.length(),m = B.length();
+string res(n+m,'0');
+
+for(int i=n-1;i>=0;i--){
+    for(int j=m-1;j>=0;j--){
+        int num = (A[i] - '0') * (B[j] - '0') + res[i+j+1] - '0';
+        res[i+j+1] = num%10 + '0';
+        res[i+j] += num/10;
+    }
+}
+for(int i=0;i<res.length();i++) if(res[i] != '0') return res.substr(i);
+return "0";
+}
 ******************************************************************************************
+int Solution::solve(string A) {
+int l=0, r=A.length()-1;
+int count = 0;
+while(l < r){
+    if(A[l] == A[r]){
+        l++;
+        r--;
+    }else{
+        if(l == 0) {
+            count++;
+            r--;
+        }
+        else {
+            count += l;
+            l = 0;
+        }
+        
+    }
+}
+
+return count;
+}
 ****************************************************************************************
+vector<int> Solution::solve(TreeNode* A) {
+    vector<int>sol;
+    queue<TreeNode* >q;
+    q.push(A);
+    q.push(NULL);
+    while(q.size()>1){
+        TreeNode* front=q.front();
+        q.pop();
+        
+        if(!front)
+            continue;
+        if(front->left)
+            q.push(front->left);
+        if(front->right)
+            q.push(front->right);
+        
+        if(q.front()==NULL){
+            sol.push_back(front->val);
+            q.push(NULL);
+        }
+            
+        
+    }
+    
+    return sol;
+}
 ******************************************************************************************
+bool getPath(TreeNode *A, int B, vector<int> &path){
+    if(!A)return 0;
+    path.push_back(A->val);
+    if(A->val==B){
+        return 1;
+    }
+    if(getPath(A->left,B,path) or getPath(A->right,B,path))
+        return 1;
+    path.pop_back();
+    
+    return 0;
+} 
+ 
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int>path;
+    getPath(A,B,path);
+    return path;
+}
 ****************************************************************************************
+TreeNode* Solution::solve(TreeNode* A) {
+    if(A->left == NULL && A->right == NULL)return A;
+    if(A->left == NULL)
+        return solve(A->right);
+    if(A->right == NULL)
+        return solve(A->left);
+    A->left = solve(A->left);
+    A->right = solve(A->right);
+    return A;
+    
+}
 ******************************************************************************************
+void solve(TreeNode *A,int B){
+    if(B==0){
+        seti.insert(temp);
+    }
+    solve(A->left,B-A->val,temp)
+}
+vector<vector<int> > Solution::pathSum(TreeNode* A, int B) {
+    solve(A,B);
+}
 ****************************************************************************************
+vector<vector<int> > Solution::zigzagLevelOrder(TreeNode* A) {
+    vector<vector<int> > ans;
+    if(!A)return ans;
+    queue<TreeNode*>q;
+    q.push(A);
+    int level=0;
+    while(!q.empty()){
+        int size=q.size();
+        vector<int>temp;
+        while(size--){
+            TreeNode *front=q.front();q.pop();
+            temp.push_back(front->val);
+            if(front->left){
+                q.push(front->left);
+            }
+            if(front->right){
+                q.push(front->right);
+            }
+        }
+        if(level%2){
+            reverse(temp.begin(),temp.end());
+        }
+        level++;
+        ans.push_back(temp);
+    }
+    return ans;
+}
+            ******************************************************************************************
+            void solve(TreeNode *root,TreeNode*& head)
+            {
+                if(!root)
+                    return;
+                solve(root->right,head);
+                solve(root->left,head);
+                root->left = NULL;
+                root->right = head;
+                head = root;
+            }
+            TreeNode* Solution::flatten(TreeNode* A)
+            {
+                TreeNode *head = NULL;
+                solve(A,head);
+                return A;
+            }
+            ****************************************************************************************
+            void sum0(TreeNode* A,long p, long sum){
+                if(!A)return;
+                if(!(A->left) and !(A->right)){
+                    p=(p*10+A->val)%1003;
+                    sum=(sum+p)%1003;
+                    return;
+                }
+                p=(p*10+A->val)%1003;
+                sum0(A->left,p,sum);
+                sum0(A->right,p,sum);
+            }
+
+            int Solution::sumNumbers(TreeNode* A) {
+                long sum=0;
+                long p=0;
+                sum0(A,p,sum);
+                return sum;
+            }
+            ******************************************************************************************
+            int Solution::solve(vector<int> &pre) {
+            stack<int> s;
+            int root = INT_MIN;
+
+            for(int i =0;i<pre.size();i++){
+                if(root > pre[i]){
+                    return 0;
+                }
+                while(!s.empty() && s.top()<pre[i]){
+                   root = s.top();
+                   s.pop();
+                }
+                s.push(pre[i]);
+            }
+            return 1;
+            }
+            ******************************************************************************************
+            vector<int> Solution::solve(TreeNode* A, int B) {
+                queue<TreeNode*>q;
+                q.push(A);
+                bool found=0;
+                vector<int>ans;
+                while(!q.empty()){
+                    int s=q.size();
+                    bool foundonlevel=0;
+                    while(s--){
+                        TreeNode* curr=q.front();q.pop();
+                        if(found){
+                            ans.push_back(v->val);
+                            continue;
+                        }
+                        if((curr->left and curr->left->val==B) or (curr->right and curr->china->val)){
+                            foundonlevel=1;
+                        }else{
+                            if(curr->left)q.push(curr->left);
+                            if(curr->right)q.push(curr->right);
+                        }
+                    }
+                    found=foundonlevel;
+                }
+                return ans;
+            }
+            *****************************************************************************************
+            int search(int low,int high,vector<int> &post,int val){
+                for(int i=low;i<=high;i++){
+                    if(post[i]==val)
+                        return i;
+                }
+            }
+
+            TreeNode* solve(vector<int> &in,vector<int> &post,int low,int high,int &index){
+                if(low>high)return NULL;
+                int mid=search(low,high,post,in[index--]);
+                TreeNode *root= new TreeNode(post[mid]);
+                root->left=solve(in,post,low,mid-1,index);
+                root->right=solve(in,post,mid+1,high,index);
+
+                return root;
+            }
+
+            TreeNode* Solution::buildTree(vector<int> &in, vector<int> &post) {
+                int n=in.size()-1;
+                TreeNode *root;
+                int i=n;
+                root=solve(in,post,0,n,i);
+                return root;
+            }
+            ******************************************************************************************
+            TreeNode* helper(vector<int> &A,int low,int high){
+                if(low>high)return NULL;
+                int index=max_element(A.begin()+low,A.begin()+high+1)-A.begin();
+                TreeNode* root=new TreeNode(A[index]);
+                root->left=helper(A,low,index-1);
+                root->right=helper(A,index+1,high);
+                return root;
+            }
+
+            TreeNode* Solution::buildTree(vector<int> &A) {
+                return helper(A,0,A.size()-1);
+            }
+            *********************************************************************************************
+            void Solution::connect(TreeLinkNode* A) {
+                queue<TreeLinkNode*>q;
+                q.push(A);
+                while(!q.empty()){
+                    int c=q.size();
+                    TreeLinkNode* prev=q.front();q.pop();
+                    if(prev->left) q.push(prev->left);
+                    if(prev->right) q.push(prev->right);
+                    for(int i=1;i<c;i++){
+                        TreeLinkNode *curr=q.front();q.pop();
+                        prev->next=curr;
+                        prev=curr;
+                        if(prev->left)q.push(prev->left);
+                        if(prev->right)q.push(prev->right);
+                    }
+                    prev->next=NULL;
+                }
+            }
+            ******************************************************************************************
+            bool find(TreeNode *A,int val){
+                if(!A)return false;
+                if(A->val==val)return true;
+                return find(A->left,val)||find(A->right,val);
+            }
+            TreeNode* LCA(TreeNode *A,int B,int C){
+                if(!A)return NULL;
+                if(A->val==B or A->val==C)return A;
+                TreeNode *L=LCA(A->left,B,C);
+                TreeNode *R=LCA(A->right,B,C);
+                if(L and R)return A;
+                return L?L:R;
+            }
+
+            int Solution::lca(TreeNode* A, int B, int C) {
+                if(!find(A,B) or !find(A,C))return -1;
+                TreeNode *ans=LCA(A,B,C);
+                return ans->val;
+
+            }
+            ******************************************************************************************
+            void inorder(TreeNode* A,vector<int> &a){ // inorder traversal of BST gives sorted array
+            if(!A)return;
+            inorder(A->left,a);
+            a.push_back(A->val);
+            inorder(A->right,a);
+            }
+            vector<int> Solution::recoverTree(TreeNode* A) {
+            vector<int> a;
+            inorder(A,a);
+            vector<pair<int,int> > temp;
+            for(int i=1;i<a.size();i++)
+            if(a[i-1]>a[i])temp.push_back(make_pair(a[i-1],a[i]));
+            if(temp.size()==1)return {temp[0].second,temp[0].first}; // this happen when root and its child is swapped
+            return {temp[1].second,temp[0].first};
+            }
+            *****************************************************************************************
+            vector<vector<int> > Solution::verticalOrderTraversal(TreeNode* root) {
+                map<int,vector<int>>mp;
+                vector<vector<int>>ans;
+                if(root==NULL)return ans;
+                queue<pair<TreeNode*,int>>q;
+                q.push({root,INT_MIN+10000});
+                while(!q.empty()){
+                    int n=q.size();
+                    while(n--){
+                        auto cur=q.front();
+                        q.pop();
+                        mp[cur.second].push_back(cur.first->val);
+                        if(cur.first->left)
+                            q.push({cur.first->left,cur.second-1});
+                        if(cur.first->right)
+                            q.push({cur.first->right,cur.second+1});
+                    }
+                    for(auto x:mp){
+                        vector<int>temp;
+                        for(auto i:x.second)
+                            temp.push_back(i);
+                        ans.push_back(temp);
+                    }
+
+                }
+                return ans;
+            }
 ******************************************************************************************
-****************************************************************************************
+*********************************************************************************************
 ******************************************************************************************
+******************************************************************************************
+*****************************************************************************************
+******************************************************************************************
+*********************************************************************************************
+****************************************************************************
