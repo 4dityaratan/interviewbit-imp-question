@@ -1,73 +1,6 @@
 # interviewbit-imp-question
 *****************************************************************************************
-    bool compare(Interval A,Interval B) 
-    {
-        return A.start < B.start;
-    }
-    vector<Interval> Solution::merge(vector<Interval> &A) {
-    int n=A.size(); 
-    sort(A.begin(),A.end(),compare); 
-    //for(int i=0;i<A.size();i++) 
-        //cout<<A.start<<" ";
-    vector<Interval> ans;
-    Interval b=Interval(0,0); 
-    for(int i=0;i<A.size();i++) 
-    {
-        if(i==0) 
-        {
-            b.start=A[i].start;
-            b.end=A[i].end;
-        } 
-        else 
-        {
-            if(A[i].start <= b.end) 
-                b.end=max(b.end,A[i].end);  // change here for overlapping with same value 
-            else 
-            {
-                ans.push_back(b);
-                b=Interval(A[i].start,A[i].end);
-            }  
-        }
-    } 
-    ans.push_back(b);
-    return ans;
-    }
-*****************************************************************************************
-      vector<int> Solution::nextPermutation(vector<int> &A) {
-          next_permutation(A.begin(),A.end());
-          return A;
-      }
-
-*****************************************************************************************
-      class Solution {
-      public:
-          vector<int> repeatedNumber(const vector<int> &V) {
-             long long sum = 0;
-             long long squareSum = 0;
-             long long temp;
-             for (int i = 0; i < V.size(); i++) {
-                 temp = V[i];
-                 sum += temp;
-                 sum -= (i + 1);
-                 squareSum += (temp * temp);
-                 squareSum -= ((long long)(i + 1) * (long long)(i + 1));
-             }
-             // sum = A - B
-             // squareSum = A^2 - B^2 = (A - B)(A + B)
-             // squareSum / sum = A + B
-             squareSum /= sum;
-
-             // Now we have A + B and A - B. Lets figure out A and B now. 
-             int A = (int) ((sum + squareSum) / 2);
-             int B = squareSum - A;
-
-             vector<int> ret;
-             ret.push_back(A);
-             ret.push_back(B);
-             return ret;
-          }
-      };
-
+ 
 *****************************************************************************************
       int Solution::repeatedNumber(const vector<int> &A) {
           const int k = 3;
@@ -105,17 +38,6 @@
           for (int j = 0; j < k; j++)
               if (cnt[j] > n / k) return candidate[j];
           return -1;
-      }
-*****************************************************************************************
-       vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInterval) {
-         vector<Interval>v;
-          int n=intervals.size();
-
-          for(i=0;i<(n-1);i++){
-              if(intervals[i].end>=intervals[i+1].start){
-
-              }
-          }
       }
 ******************************************************************************************
       vector<int> Solution::flip(string A) {
@@ -161,36 +83,6 @@
           helper(A,0,0,out,A.size());
           return out;
       }
-
-*****************************************************************************************
-            vector<vector<int> > Solution::subsetsWithDup(vector<int> &A) {
-                set<vector<int>>v;
-                sort(A.begin(),A.end());
-                vector<int>subset;
-                ans(v,subset,A,0);
-                vector<vector<int>>a(v.begin(),v.end());
-                return a;
-            }
-****************************************************************************************
-            solve(vector<int> &A,int n, vector<int> &temp,set<vector<int>> &ans,int index=0){
-                if(index == n){
-                    ans.insert(temp);
-                    return ;
-                }
-                if(index >n)
-                    return ;
-                for(int j=)
-            }
-
-            vector<vector<int> > Solution::permute(vector<int> &A) {
-                int n=A.size();
-                set<vector<int>>ans;
-                solve(A,n,temp,ans);
-                vector<vector<int>>res;
-                for(auto x: ans)
-                    res.push_back(x);
-                return res;
-            }
 
 ***************************************************************************************
             void generate(int A,vector<string> &vec, string s="", int unbalance=0){
@@ -244,23 +136,6 @@
                 vector<int> vec;
                 generate(vec, A, 0);
                 return vec;
-            }
-
-***************************************************************************************
-            void backtrack(vector &A,int index,vector<vector> &ans,vector &temp){
-                ans.push_back(temp);
-                for(int i=index;i<A.size();i++){
-                    temp.push_back(A[i]);
-                    backtrack(A,i+1,ans,temp);
-                    temp.pop_back();
-                }
-            }
-            vector<vector<int> > Solution::subsets(vector<int> &A) {
-                vector<vector> ans;
-                vector temp;
-                sort(A.begin(),A.end());
-                backtrack(A,0,ans,temp);
-                return ans;
             }
 
 ***************************************************************************************
@@ -343,31 +218,6 @@
                 backtracker(soln, board, 0, A, s);
                 return soln;
             }
-
-**************************************************************************************
-            int Solution::searchInsert(vector<int> &A, int B) {
-                int n = A.size();
-                if(B>A[n-1])
-                    return n;
-                int start=0;
-                int end = n-1;
-                int ans;
-                while(start<=end)
-                {
-                    int mid = start + (end-start)/2;
-                    if(A[mid]==B)
-                        return mid;
-                    if(A[mid]>B)
-                    {
-                        ans = mid;
-                        end = mid-1;
-                    }
-                    else
-                        start = mid+1;
-                }
-                return ans;
-
-            }
 ***************************************************************************************
             void helper( vector<int> A,int B, int start , int end , int &mn)
             {
@@ -406,100 +256,6 @@
                 if(mx == INT_MIN)
                     mx = -1;
                 return vector<int> {mn,mx};
-            }
-****************************************************************************************
-            double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B) {
-                    int arr[A.size()],brr[B.size()];
-                    for(int i=0;i<A.size();i++)arr[i]=A[i];
-                    for(int i=0;i<B.size();i++)brr[i]=B[i];
-
-                    int l1=A.size();
-                    int l2=B.size();
-                    if(l1>l2){
-                        int end=l1-1;
-                        int start=0;
-                        for(int i=0;i<l2;i++){
-                            if(brr[end]<arr[start]){
-                                swap(brr[end],arr[start]);
-                                end--;
-                                start++;
-                            }else{
-                              break;  
-                            }
-                        }
-                        sort(arr,arr+l1);
-                        return arr[(l1+l2)/2];
-                    }else{
-
-                    }
-
-            }
-
-***************************************************************************************
-            int Solution::singleNumber(const vector<int> &A) {
-                int ans=0,len=A.size(),even,odd,p=1;
-
-                for(int i=0;i<32;i++){
-                    even=0;
-                    odd=0;
-                    for(int j=0;j<len;j++){
-                        if(p&A[j]==0){
-                            even++;
-                        }else odd++;
-                    }
-                    if(odd%3!=0)
-                        ans+=p;
-                    p*=2;
-                }
-                return ans;
-
-            }
-**************************************************************************************
-            int solve(TreeNode* A, int &res){
-                 if(A==NULL)return 0;
-                int l=solve(A->left,res);
-                int r=solve(A->right,res);
-
-                int temp=max(max(l,r)+A->val,A->val);
-
-                int ans=max(temp,l+r+A->val);
-                res = max(res,ans);
-
-                return temp;
-
-             }
-
-
-            int Solution::maxPathSum(TreeNode* A) {
-                int res=INT_MIN;
-                solve(A,res);
-                return res;
-            }
-***************************************************************************************
-            int Solution::solve(vector<int> &A, int B) {
-                int n=A.size();
-                int pre[n+4]={0},suf[n+4]={0};
-
-                int i,j,k;
-
-                for(i=1;i<=n;i++){
-                    pre[i]=min(pre[i-1],A[i-1]);
-                }
-                for(i=(n-1);i>=0;i--){
-                    suf[i+1]=max(suf[i+2],A[i]);
-                }
-                int diff[n+4]={0};
-                for(i=1;i<=n;i++){
-                    diff[i]=(suf[i]-pre[i]);
-                }
-                sort(diff+1,diff+n+1);
-                int sum=0;
-                for(i=n;i>=(n-B+1);i--){
-                    sum+=diff[i];
-                }
-
-                return sum;
-
             }
 ***************************************************************************************
             vector<vector<int> > Solution::solve(int A, vector<vector<int> > &B) {
@@ -550,36 +306,6 @@
                 return ss;
             }
 
-****************************************************************************************
-            int Solution::isMatch(const string A, const string B) {
-                int n=A.length();
-                int m=B.length();
-                bool dp[n+2][m+2];
-                memset(dp,false,sizeof(dp));
-
-                dp[0][0]=true;
-                for(int i=1;i<=n;i++)
-                    dp[i][0]=false;
-                for(int i=1;i<=m;i++){
-                    dp[0][i]=false;
-                    if(i>=2 and B[i-1]=='*')
-                        dp[0][i]=dp[0][i-2];
-                }
-                for(int i=1;i<=n;i++){
-                    for(int j=1;j<=m;j++){
-                        if(A[i-1]==B[j-1] || B[j-1]=='.')
-                            dp[i][j]=dp[i-1][j-1];
-                        else if(B[j-1]=='*'){
-                            if(j>=2 and (A[i-1]==B[j-2] || B[j-2]=='.'))
-                                dp[i][j]=dp[i-1][j]|dp[i][j-2];
-                            else if(j>=2)
-                                dp[i][j]=dp[i][j-2];
-                        }
-                    }
-                }
-                return dp[n][m];
-
-            }
 
 **************************************************************************************
             int compute(vector<int> &A, int l, int r, bool turn, vector<vector<int> > &dp) {
@@ -599,27 +325,6 @@
                 vector<vector<int> > dp(len, vector<int>(len, -1));
                 dp[0][len-1] = compute(A, 0, len-1, true, dp);
                 return dp[0][len-1];
-            }
-****************************************************************************************
-            int dp[701][701];
-            int func(int i,int j,string A,string B){
-                if(i>=A.size() || j>=B.size()){
-                    if(j==B.size())return 1;
-                    return 0;
-
-                }
-                if(dp[i][j]!=-1)return dp[i][j];
-                dp[i][j]=0;
-                if(A[i]==B[j])
-                    dp[i][j]+=func(i+1,j+1,A,B);
-                dp[i][j]+=func(i+1,j,A,B);
-                return dp[i][j];
-
-            }
-
-            int Solution::numDistinct(string A, string B) {
-                memset(dp,-1,sizeof dp);
-                return func(0,0,A,B);
             }
 
 ****************************************************************************************
@@ -647,47 +352,6 @@
                 return res;
             }
 
-**************************************************************************************
-            bool dfs(string A, int ind, vector<int> &dp,unordered_map<string, int> &dict,int ms){
-                if(A.size() == ind)return true;
-                if(dp[ind]!=-1)return (bool)dp[ind];
-                bool flag=false;
-                string s="";
-                for(int i=ind;i<A.size();i++){
-                    s+=A[i];
-                    if(s.size()>ms)break;
-                    if(dict[s])flag|=dfs(A,i+1,dp,dict,ms);
-                }
-                return dp[ind]=flag;
-            }
-
-            int Solution::wordBreak(string A, vector<string> &B) {
-                unordered_map<string,int>dict;
-                vector<int>dp(A.size()+1,-1);
-                int ms=0;
-                for(auto x: B)ms=max(ms,(int)x.size()),dict[x]++;
-                return (int)dfs(A,0,dp,dict,ms);
-            }
-
-***************************************************************************************
-            int Solution::solve(const vector<int> &A, const vector<int> &B, const vector<int> &C) {
-                int t = *max_element(A.begin(), A.end());
-                int dp[t+1];
-                memset(dp,-1,sizeof(dp));
-                dp[0]=0;
-                int k=0;
-                for(auto i:B){
-                    for(int j=i;j<=t;j++){
-                        if(dp[j-i]!=-1)
-                            dp[j]=dp[j]==-1 ? dp[j-i]+C[k]:min(dp[j],dp[j-i]+C[k]);
-                    }
-                    k++;
-                }
-                int ans=0;
-                for(auto i:A)ans+=dp[i];
-                return ans;
-
-            }
 
 ****************************************************************************************
             int solve(vector<vector<int>> &A,int s,int e, int n,int m,vector<vector<int>> &dp){
@@ -714,37 +378,6 @@
                     return 1;
                 return abs(ans-1);
             }
-
-**************************************************************************************
-            int MOD=1000000007;
-
-            int func(vector<int>& arr,int sum,int k,vector<vector<int>>& t){
-                if(sum==0 and k==0)
-                    return 1;
-                if(sum<0)
-                    return 0;
-                if(k==0)
-                    return 0;
-                if(t[sum][k]!=-1)
-                    return t[sum][k];
-                int ans=0;
-                for(int i=0;i<arr.size();i++){
-                    if(arr[i]<=sum)
-                        ans=((ans%MOD)+(func(arr,sum-arr[i],k-1,t)%MOD))%MOD;
-                }
-                return t[sum][k]=ans%MOD;
-            }
-
-            int Solution::solve(int A, int B) {
-                vector<vector<int>>t(1000, vector<int>(1000,-1));
-                vector<int> arr = {1,2,3,4,5,6,7,8,9,0};
-                int ans=0;
-                for(int i=0;i<9;i++){
-                    ans=((ans%MOD) + (func(arr,B-arr[i],A-1,t)%MOD))%MOD;
-                }
-                return ans%MOD;
-
-            }
 ****************************************************************************************
             int cutRod(int n, vector<int> &B){
                 int val[n+1];
@@ -764,62 +397,6 @@
                 return cutRod(A, B);
             }
 
-*****************************************************************************************
-            unordered_map<UndirectedGraphNode*, UndirectedGraphNode*>mp;
-
-            UndirectedGraphNode dfs(UndirectedGraphNode Node){
-                if(node == NULL)
-                    return NULL:
-                if(mp.find(node) == mp.end()){
-                    mp[node] = new UndirectedGraphNode(node->label);
-                    for(auto x:node->neighbors){
-                        mp[node]->neighbors.push_back(dfs(x));
-                    }
-                }
-                return mp[node];
-            }
-
-            UndirectedGraphNode *Solution::cloneGraph(UndirectedGraphNode *node) {
-                mp.clear();
-                return dfs(node);
-            }
-
-***************************************************************************************
-            int find1(int a1[],int x){
-                if(a1[x]== -1)return x;
-                return a1[x]=find(a1,a1[x]);
-            }
-
-            int Solution::solve(int A, vector<int> &B, vector<int> &C) {
-                if(B.size()>=A)
-                    return 0;
-                else
-                    return 1;
-                if(!A)
-                    return 0;
-                vector<vector<int>>graph(A+1,vector<int>());
-                int i=0,size=min(B.size(),C.size());
-                for(i=0;i<size;i++)
-                    graph[B[i]].push_back(C[i]);
-                vector<bool>visited(A+1,false);
-                vector<bool>revStack(A+1,false);
-
-                for(i=1;i<size;i++)
-                    if(!visited[i] and isCyclic(graph,i,visited, recStack))
-                        return 0;
-                return 1;
-            }
-
-***************************************************************************************
-            int Solution::solve(vector<int> &A) {
-                vector<int>hgt(A.size(),0);
-                int ans=0,maxx=0;
-                for(int i=A.size()-1;i>0;i--){
-                    ans=max(ans,hgt[A[i]]+hgt[i]+1);
-                    hgt[A[i]]=max(hgt[i]+1,hgt[A[i]]);
-                }
-                return ans;
-            }
 
 ****************************************************************************************
             bool isInside(int circle_x,int circle_y,int rad,int x,int y){
@@ -866,37 +443,6 @@
                 }
                 return res;
             }
-
-***************************************************************************************
-            int isRectangle(const vector<vector<int> >& matrix) {
-                int rows = matrix.size();
-                if (rows == 0)
-                    return 0;
-
-                int columns = matrix[0].size();
-                unordered_map<int, unordered_set<int> > table;
-
-                for (int i = 0; i < rows; ++i) {
-                 for (int j = 0; j < columns - 1; ++j) {
-                    for (int k = j + 1; k < columns; ++k) {
-                      if (matrix[i][j] == 1 && matrix[i][k] == 1) {
-                        if (table.find(j) != table.end() && table[j].find(k) != table[j].end())
-                                    return 1;
-                        if (table.find(k) != table.end() && table[k].find(j) != table[k].end())
-                                    return 1;
-                        table[j].insert(k);
-                        table[k].insert(j);
-                      }
-                    }
-                  }
-                }
-                return 0;
-            }
-
-
-            int Solution::solve(const vector<vector<int> > &A) {
-                return isRectangle(A);
-            }
 ****************************************************************************************
             #include<list>
             list<int> q;
@@ -936,27 +482,6 @@
                   }
             }
 
-            ****************************************************************************************
-            ListNode* Solution::solve(ListNode* A, int b) {
-                if(A == NULL) return NULL;
-                ListNode *head,*curr,*next,*prev;
-                curr = A; prev = NULL;
-                for(int i = 0; i<b;i++){
-                    next = curr->next;
-                    curr->next = prev;
-                    prev = curr;
-                    curr = next;
-                }
-                head = prev;
-                A->next = curr;
-                if(curr==NULL) return head;
-
-                for(int i = 0; i<b-1;i++)
-                curr = curr->next;
-
-                curr->next = solve(curr->next,b);
-                return head;
-            }
 ****************************************************************************************
             ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
                 ListNode* dummy =new ListNode(0);
@@ -1001,118 +526,6 @@
 
             }
 *****************************************************************************************
-            int arr[12345678],minimum[12345678];
-            int cur,mincur;
-            MinStack::MinStack() {
-                cur=-1;
-                mincur=-1;
-            }
-
-            void MinStack::push(int x) {
-                //assert(cur<=1234567);
-                if(mincur==-1 || x<=minimum[mincur])
-                {
-                    mincur++;
-                    minimum[mincur]=x;
-                }
-                cur++;
-                arr[cur]=x;
-            }
-
-            void MinStack::pop() {
-                //assert(cur<=1234567);
-                if(cur==-1)
-                 return;
-                if(arr[cur]==minimum[mincur])
-                 mincur--;
-                cur--;
-            }
-
-            int MinStack::top() {
-                //assert(cur<=1234567);
-                if(cur==-1)
-                 return -1;
-
-                return arr[cur];
-            }
-
-            int MinStack::getMin() {
-                //assert(cur<=1234567);
-                if(mincur==-1)
-                 return -1;
-                return minimum[mincur];
-            }
-***************************************************************************************
-            int Solution::trap(const vector<int> &A) {
-                stack<int>stk;
-                for(int i=0;i<A.size();i++){
-                    while(!s.empty() and A[i]>A[s.top]){
-                        int height = A[s.top()];
-                        s.pop();
-                        if(s.empty())break;
-                        int distance=i-1-s.top();
-                        int min_height = min(A[s.top()],A[i])-height;
-                        ans+=distance*min_height;
-
-                    }
-                    s.push(i);
-
-                }
-                return ans;
-
-            }
-
-****************************************************************************************
-            string Solution::intToRoman(int A) {
-            string numerals[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", 
-                         "V", "IV", "I"};
-            int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-
-                if(A<1 && A>3999)
-                return "";
-
-                int i=0;
-                string res = "";
-                while(A > 0)
-                {
-                    if(A - values[i] >= 0)
-                    {
-                        res += numerals[i];
-                        A = A - values[i];
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-                return res;
-            }
-***************************************************************************************
-            string Solution::countAndSay(int A) {
-            if(A==1) return "1";
-            int i=2;
-            string prev="1";
-            while(i<=A)
-            {
-                int count=1;
-                char say=prev[0];
-                string newp="";
-                for(int i=1;i<prev.length();i++)
-                    if(prev[i]==prev[i-1]) count++;
-                    else{
-                        newp+=to_string(count);
-                        newp.push_back(say);
-                        count=1;
-                        say=prev[i];
-                    }
-                newp+=to_string(count);
-                newp.push_back(say);
-                i++;
-                prev=newp;
-            }
-            return prev;
-            }
-*****************************************************************************************
             string Solution::convert(string A, int B)
             {
             vector a(B);
@@ -1143,71 +556,6 @@
             for(auto x: a)
                 ans.append(x);
             return ans;
-            }
-***************************************************************************************
-            string Solution::multiply(string A, string B) {
-            int n = A.length(),m = B.length();
-            string res(n+m,'0');
-
-            for(int i=n-1;i>=0;i--){
-                for(int j=m-1;j>=0;j--){
-                    int num = (A[i] - '0') * (B[j] - '0') + res[i+j+1] - '0';
-                    res[i+j+1] = num%10 + '0';
-                    res[i+j] += num/10;
-                }
-            }
-            for(int i=0;i<res.length();i++) if(res[i] != '0') return res.substr(i);
-            return "0";
-            }
-*****************************************************************************************
-            int Solution::solve(string A) {
-            int l=0, r=A.length()-1;
-            int count = 0;
-            while(l < r){
-                if(A[l] == A[r]){
-                    l++;
-                    r--;
-                }else{
-                    if(l == 0) {
-                        count++;
-                        r--;
-                    }
-                    else {
-                        count += l;
-                        l = 0;
-                    }
-
-                }
-            }
-
-            return count;
-            }
-***************************************************************************************
-            vector<int> Solution::solve(TreeNode* A) {
-                vector<int>sol;
-                queue<TreeNode* >q;
-                q.push(A);
-                q.push(NULL);
-                while(q.size()>1){
-                    TreeNode* front=q.front();
-                    q.pop();
-
-                    if(!front)
-                        continue;
-                    if(front->left)
-                        q.push(front->left);
-                    if(front->right)
-                        q.push(front->right);
-
-                    if(q.front()==NULL){
-                        sol.push_back(front->val);
-                        q.push(NULL);
-                    }
-
-
-                }
-
-                return sol;
             }
 ****************************************************************************************
             bool getPath(TreeNode *A, int B, vector<int> &path){
@@ -1240,44 +588,6 @@
                 return A;
 
             }
-*****************************************************************************************
-            void solve(TreeNode *A,int B){
-                if(B==0){
-                    seti.insert(temp);
-                }
-                solve(A->left,B-A->val,temp)
-            }
-            vector<vector<int> > Solution::pathSum(TreeNode* A, int B) {
-                solve(A,B);
-            }
-***************************************************************************************
-            vector<vector<int> > Solution::zigzagLevelOrder(TreeNode* A) {
-                vector<vector<int> > ans;
-                if(!A)return ans;
-                queue<TreeNode*>q;
-                q.push(A);
-                int level=0;
-                while(!q.empty()){
-                    int size=q.size();
-                    vector<int>temp;
-                    while(size--){
-                        TreeNode *front=q.front();q.pop();
-                        temp.push_back(front->val);
-                        if(front->left){
-                            q.push(front->left);
-                        }
-                        if(front->right){
-                            q.push(front->right);
-                        }
-                    }
-                    if(level%2){
-                        reverse(temp.begin(),temp.end());
-                    }
-                    level++;
-                    ans.push_back(temp);
-                }
-                return ans;
-            }
 ****************************************************************************************
             void solve(TreeNode *root,TreeNode*& head)
             {
@@ -1294,25 +604,6 @@
                 TreeNode *head = NULL;
                 solve(A,head);
                 return A;
-            }
-**************************************************************************************
-            void sum0(TreeNode* A,long p, long sum){
-                if(!A)return;
-                if(!(A->left) and !(A->right)){
-                    p=(p*10+A->val)%1003;
-                    sum=(sum+p)%1003;
-                    return;
-                }
-                p=(p*10+A->val)%1003;
-                sum0(A->left,p,sum);
-                sum0(A->right,p,sum);
-            }
-
-            int Solution::sumNumbers(TreeNode* A) {
-                long sum=0;
-                long p=0;
-                sum0(A,p,sum);
-                return sum;
             }
 *****************************************************************************************
             int Solution::solve(vector<int> &pre) {
@@ -1331,110 +622,6 @@
             }
             return 1;
             }
-****************************************************************************************
-            vector<int> Solution::solve(TreeNode* A, int B) {
-                queue<TreeNode*>q;
-                q.push(A);
-                bool found=0;
-                vector<int>ans;
-                while(!q.empty()){
-                    int s=q.size();
-                    bool foundonlevel=0;
-                    while(s--){
-                        TreeNode* curr=q.front();q.pop();
-                        if(found){
-                            ans.push_back(v->val);
-                            continue;
-                        }
-                        if((curr->left and curr->left->val==B) or (curr->right and curr->china->val)){
-                            foundonlevel=1;
-                        }else{
-                            if(curr->left)q.push(curr->left);
-                            if(curr->right)q.push(curr->right);
-                        }
-                    }
-                    found=foundonlevel;
-                }
-                return ans;
-            }
-****************************************************************************************
-            int search(int low,int high,vector<int> &post,int val){
-                for(int i=low;i<=high;i++){
-                    if(post[i]==val)
-                        return i;
-                }
-            }
-
-            TreeNode* solve(vector<int> &in,vector<int> &post,int low,int high,int &index){
-                if(low>high)return NULL;
-                int mid=search(low,high,post,in[index--]);
-                TreeNode *root= new TreeNode(post[mid]);
-                root->left=solve(in,post,low,mid-1,index);
-                root->right=solve(in,post,mid+1,high,index);
-
-                return root;
-            }
-
-            TreeNode* Solution::buildTree(vector<int> &in, vector<int> &post) {
-                int n=in.size()-1;
-                TreeNode *root;
-                int i=n;
-                root=solve(in,post,0,n,i);
-                return root;
-            }
-****************************************************************************************
-            TreeNode* helper(vector<int> &A,int low,int high){
-                if(low>high)return NULL;
-                int index=max_element(A.begin()+low,A.begin()+high+1)-A.begin();
-                TreeNode* root=new TreeNode(A[index]);
-                root->left=helper(A,low,index-1);
-                root->right=helper(A,index+1,high);
-                return root;
-            }
-
-            TreeNode* Solution::buildTree(vector<int> &A) {
-                return helper(A,0,A.size()-1);
-            }
-********************************************************************************************
-            void Solution::connect(TreeLinkNode* A) {
-                queue<TreeLinkNode*>q;
-                q.push(A);
-                while(!q.empty()){
-                    int c=q.size();
-                    TreeLinkNode* prev=q.front();q.pop();
-                    if(prev->left) q.push(prev->left);
-                    if(prev->right) q.push(prev->right);
-                    for(int i=1;i<c;i++){
-                        TreeLinkNode *curr=q.front();q.pop();
-                        prev->next=curr;
-                        prev=curr;
-                        if(prev->left)q.push(prev->left);
-                        if(prev->right)q.push(prev->right);
-                    }
-                    prev->next=NULL;
-                }
-            }
-*****************************************************************************************
-            bool find(TreeNode *A,int val){
-                if(!A)return false;
-                if(A->val==val)return true;
-                return find(A->left,val)||find(A->right,val);
-            }
-            TreeNode* LCA(TreeNode *A,int B,int C){
-                if(!A)return NULL;
-                if(A->val==B or A->val==C)return A;
-                TreeNode *L=LCA(A->left,B,C);
-                TreeNode *R=LCA(A->right,B,C);
-                if(L and R)return A;
-                return L?L:R;
-            }
-
-            int Solution::lca(TreeNode* A, int B, int C) {
-                if(!find(A,B) or !find(A,C))return -1;
-                TreeNode *ans=LCA(A,B,C);
-                return ans->val;
-
-            }
 *****************************************************************************************
             void inorder(TreeNode* A,vector<int> &a){ // inorder traversal of BST gives sorted array
             if(!A)return;
@@ -1450,54 +637,6 @@
             if(a[i-1]>a[i])temp.push_back(make_pair(a[i-1],a[i]));
             if(temp.size()==1)return {temp[0].second,temp[0].first}; // this happen when root and its child is swapped
             return {temp[1].second,temp[0].first};
-            }
-**************************************************************************************
-            vector<vector<int> > Solution::verticalOrderTraversal(TreeNode* root) {
-                map<int,vector<int>>mp;
-                vector<vector<int>>ans;
-                if(root==NULL)return ans;
-                queue<pair<TreeNode*,int>>q;
-                q.push({root,INT_MIN+10000});
-                while(!q.empty()){
-                    int n=q.size();
-                    while(n--){
-                        auto cur=q.front();
-                        q.pop();
-                        mp[cur.second].push_back(cur.first->val);
-                        if(cur.first->left)
-                            q.push({cur.first->left,cur.second-1});
-                        if(cur.first->right)
-                            q.push({cur.first->right,cur.second+1});
-                    }
-                    for(auto x:mp){
-                        vector<int>temp;
-                        for(auto i:x.second)
-                            temp.push_back(i);
-                        ans.push_back(temp);
-                    }
-
-                }
-                return ans;
-            }
-******************************************************************************************
-            int Solution::romanToInt(string A) {
-                map<char,int> m;
-                m['I'] = 1;
-                m['V'] = 5;
-                m['X'] = 10;
-                m['L'] = 50;
-                m['C'] = 100;
-                m['D'] = 500;
-                m['M'] = 1000;
-
-                int ans = 0, i = 0, N = A.size();
-                while(i < N-1){
-                    if(m[A[i]]< m[A[i+1]]) ans-=m[A[i]];
-                    else ans+=m[A[i]];
-                    i++;
-                }
-                ans+=m[A[i]];
-                return ans;
             }
 *******************************************************************************************
             int Solution::isNumber(const string A) {
@@ -1652,53 +791,6 @@
 
             }
             return v;
-            }
-****************************************************************************************
-            vector vec;
-            void allv(TreeNode* node,vector &vec){
-            if(node==NULL){
-            return;
-            }
-            allv(node->left,vec);
-            vec.push_back(node->val);
-            allv(node->right,vec);
-            }
-            BSTIterator::BSTIterator(TreeNode *root) {
-
-              allv(root,vec);
-            }
-
-            /** @return whether we have a next smallest number */
-            bool BSTIterator::hasNext() {
-            if(vec.size()!=0){
-            return true;
-            }
-            else{
-            return false;
-            }
-            }
-
-            /** @return the next smallest number */
-            int BSTIterator::next() {
-            int c=vec[0];
-            vec.erase(vec.begin()+0);
-            return c;
-
-            }
-********************************************************************************************
-            TreeNode * build(vector<int> &pre, int &preIdx,unordered_map<int,int> &m,int start,int end){
-                if(start>end) return NULL;
-                TreeNode *root = new TreeNode(pre[preIdx++]);
-                if(start == end) return root;
-                root->left = build(pre,preIdx,m,start,m[root->val]-1);
-                root->right = build(pre,preIdx,m,m[root->val]+1,end);
-                return root;
-             }
-            TreeNode* Solution::buildTree(vector<int> &pre, vector<int> &in) {
-                unordered_map<int,int> mp;
-                for(int i=0; i<in.size(); i++) mp[in[i]] = i;
-                int n=0;
-                return build(pre,n,mp,0,in.size()-1);
             }
 ***************************************************************************
             class Trie{
@@ -2617,56 +1709,7 @@
                 unordered_map<RandomListNode *, RandomListNode *> umap;
                 return deepCopy(A, umap);
             }
-**************************************************************************                              
-            typedef long long ll;
-            string Solution::fractionToDecimal(int A, int B) {
-                if(A==0) return "0";
-                if(B==0) return "invalid";
-                long long a=(long long)A;
-                long long b=(long long)B;
-                int sign=(a<0)^(b<0)?-1:1;
-                a=abs(a);
-                b=abs(b);
-                long long initial=a/b;
-                string res;
-                if(sign==-1)
-                {
-                res+="-";
-                }
-                res+=to_string(initial);
-                if(a%b==0)
-                {
-                    return res;
-                }
-                res+=".";
-                long long rem=a%b;
-                unordered_map<ll,ll> m;
-                long long index;
-                bool repeat =false;
-                while(rem>0&&repeat==false)
-                {
-                    if(m.find(rem)!=m.end())
-                    {
-                        index=m[rem];
-                        repeat=true;
-                        break;
-                    }
-                    else
-                    {
-                        m[rem]=res.size();
-                    }
-                    rem=rem*10;
-                    long long temp=rem/b;
-                    res+=to_string(temp);
-                    rem=rem%b;
-                }
-                    if(repeat==true)
-                    {
-                        res+=")";
-                        res.insert(index,"(");
-                    }
-                    return res;
-            }
+
 **************************************************************************  
             long long dp[105];
             long long comb[105][105];
@@ -2739,38 +1782,6 @@
             }
 
             return A;
-            }
-***************************************************************************  
-            ListNode* mergeTwoLists(ListNode* A, ListNode* B) {
-            if(A==NULL)return B;
-            if(B==NULL)return A;
-            ListNode* ans=NULL;
-            if(A->val < B->val){
-            ans=A;
-            ans->next=mergeTwoLists(A->next,B);
-            }
-            else{
-            ans=B;
-            ans->next=mergeTwoLists(A,B->next);
-            }
-            return ans;
-            }
-            ListNode* Solution::sortList(ListNode* A) {
-            if(A==NULL||A->next==NULL)return A;
-            ListNode* slow=A;
-            ListNode* temp=A;
-            ListNode* fast=A;
-            while(fast!=NULL && fast->next!=NULL){
-            temp = slow;
-            slow = slow->next;
-            fast=fast->next->next;
-            }
-
-            temp->next = NULL;
-             ListNode* LS = sortList(A);
-             ListNode* LR = sortList(slow);
-
-            return mergeTwoLists(LS,LR);
             }
 ***************************************************************************  
             int Solution::largestRectangleArea(vector<int> &A) {
